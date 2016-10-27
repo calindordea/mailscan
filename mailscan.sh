@@ -9,7 +9,7 @@
 
 #set -x
 
-LOGFILE="/var/log/clamav/premier_mailscan.log"
+premier_scan="/var/log/clamav/premier_mailscan.log"
 rep_virus="/var/tmp/VIRUS/"
 dir_scan="/var/vmail/"
 notification="calin.dordia@ro.auf.org"
@@ -37,24 +37,24 @@ then mkdir "$rep_virus"
 
 fi
 
-if [ ! -f  "$LOGFILE $dir" ] 
+if [ ! -f  "$premier_scan $dir" ] 
 
 then
 
- clamscan -i -l "$LOGFILE $dir" -r --move="$rep_virus" "$dir_scan"
+ clamscan -i -l "$premier_scan $dir" -r --move="$rep_virus" "$dir_scan"
 
 ### Verifier si le fichier log existe et envoyer par e-mail
 
-VN=$(tail "$LOGFILE $dir"|grep Infected|cut -d" " -f3)
+VN=$(tail "$premier_scan $dir"|grep Infected|cut -d" " -f3)
 
 if [ "$VN" -ne "0" ]
 
 then    
-    mail -s "ClamAV Log du `date +%d-%m-%Y`" "$notification" < "$LOGFILE $dir"
+    mail -s "ClamAV Log du `date +%d-%m-%Y`" "$notification" < "$premier_scan $dir"
 	echo "Send OK"
-#	cp "$LOGFILE" "ClamAV_log`date +%d-%m-%Y`
-	cp "$LOGFILE $dir" "$log_file $dir"
-#    echo "" > "$LOGFILE"
+#	cp "$premier_scan" "ClamAV_log`date +%d-%m-%Y`
+	cp "$premier_scan $dir" "$log_file $dir"
+#    echo "" > "$premier_scan"
 else
     echo "Aucun virus trouve" | mail -s "Aucun Virus ClamAV `date +%d-%m-%Y`" "$notification"
 #    echo "Une erreur de scan envoyee par courriel"
