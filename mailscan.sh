@@ -15,7 +15,7 @@
 
 notification="calin.dordia@ro.auf.org"
 notif_prefix="ClamAV Log :"
-dir_scan="/var/vmail/"
+dir_scan="/var/mail/"
 rep_virus="/var/tmp/VIRUS/"
 premier_scan_base="/var/log/clamav/premier_mailscan_"
 log_base="/var/log/clamav/hebdo_clamscan_"
@@ -74,7 +74,7 @@ do
         #find "$dir_scan$domain/$bal" -type f -cnewer "$log_file" -fprint "$list_file"
       #else
         # identifier les messages du derniers 7 jours
-        find "$dir_scan$domain/$bal" -type f -mtime -60 -fprint "$list_file"
+        find "$dir_scan$domain/$bal" -type f -mtime +60 -fprint "$list_file"
       #fi
 
       if [ -s "$list_file" ]
@@ -93,7 +93,11 @@ do
       fi
     fi
     #changer le propritaire de la quarantine pour que l'utilisateur puisse y operer
-    chown -R "vmail":"vmail" "$quarantine"
+    #chown -R "vmail":"vmail" "$quarantine" 
+
+    # on purge  de la quarantine les fichiers plus anciens (plus de 15 jours)
+    find "$quarantine" -type f  -mtime +15 -exec rm {} \;
+
   done
 done
 
