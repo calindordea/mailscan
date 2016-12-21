@@ -1,0 +1,10 @@
+Package: bal-scanv
+Version: 1.0-1
+Section: base
+Priority: optional
+Architecture: all
+Depends: clamav (>=0.99)
+Maintainer: Calin DORDEA <calin.dordia@auf.org>
+Description: Le script propose un scan periodique (hebdomadaire) des boites aux lettres
+ (BAL) en vue d'eliminer les virus restant qui, pour certains raisons,
+ n'ont pas etes detectes a l'arrive.
